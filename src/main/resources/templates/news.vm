@@ -1,37 +1,36 @@
 <html>
 <body>
 ${name}<br>
-##访问属性##
+##访问属性
 ${user.getName()}
 
 <br>
-##遍历 map list##
+##遍历 map list
 #foreach($kv in $map.entrySet())
     <br>
     Number:$!{foreach.index}/$!{foreach.count}:$!{kv.key} ${kv.value}
 #end
 <br>
 #set($title="nowcoder")
-Include:#include("header.vm")##静态包含##
-Parse:#parse("header.vm")##动态包含##
+Include:#include("header.vm")##静态包含
+Parse:#parse("header.vm")##动态包含
 
-##宏（函数）定义##
-#macro (render_color $color,$index)
+##宏（函数）定义
+#macro (render_color $color $index)
     Color By Macro $index,$color
 #end
 
-##宏调用##
+##宏调用
     #foreach($color in $colors)
-       <br>#render_color($color,$foreach.index)
+       <br>#render_color($color $foreach.index)
     #end
 
 #set($hello="hello")
 #set($hworld1="$!{hello} world")
-#set($hworld2='$!{hello} world')##单引号表示纯文本##
+#set($hworld2='$!{hello} world')##单引号表示纯文本
 
 hworld1:$hworld1
 hworld2:$hworld2
-
 <br>
 $colors.size()
 </body>
