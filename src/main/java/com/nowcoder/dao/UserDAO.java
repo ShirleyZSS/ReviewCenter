@@ -17,7 +17,10 @@ public interface UserDAO {
     int addUser(User user) ;//添加用户信息
 
     @Select({"select ", SELECT_FIELDS," from ",TABLE_NAME," where id=#{id}"})
-    User selectById(int id);//用户信息查询
+    User selectById(int id);//用户信息查询  通过id
+
+    @Select({"select ", SELECT_FIELDS," from ",TABLE_NAME," where name=#{name}"})
+    User selectByName(String name);//用户信息查询 通过姓名
 
     @Update({"update ",TABLE_NAME, " set password=#{password} where id=#{id}"})
     void updatePassword(User user);//更改用户密码

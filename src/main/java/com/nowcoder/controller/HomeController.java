@@ -1,5 +1,6 @@
 package com.nowcoder.controller;
 
+import com.nowcoder.model.HostHolder;
 import com.nowcoder.model.News;
 import com.nowcoder.model.ViewObject;
 import com.nowcoder.service.NewsService;
@@ -8,9 +9,7 @@ import com.sun.prism.image.ViewPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -26,6 +25,9 @@ public class HomeController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    HostHolder hostHolder;
 
     private List<ViewObject> getNews(int userId,int offset,int limit){
         List<News> newsList =newsService.getLatestNews(userId,offset,limit);
@@ -49,8 +51,18 @@ public class HomeController {
     }
 
     @RequestMapping(path={"/user/{userId}"},method = {RequestMethod.GET,RequestMethod.POST})
-    public String userIndex(Model model, @PathVariable("userId")int userId){
+    public String userIndex(Model model, @PathVariable("userId")int userId,
+                            @RequestParam(value="pop",defaultValue = "0") int pop ){//从前端读取pop
         model.addAttribute("vos",getNews(userId,0,10));
+        model.addAttribute("pop",pop);
         return "home";
     }
+
+    @RequestMapping(path={"/logout/"},method={RequestMethod.GET,RequestMethod.POST})
+    public String logout(@CookieValue("ticket")String ticket){
+        userService.logout(ticket);
+        return "redirect:/";//登出 自动跳转首页
+
+    }
+
 }
