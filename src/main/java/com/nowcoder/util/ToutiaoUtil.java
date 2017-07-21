@@ -1,6 +1,7 @@
 package com.nowcoder.util;
 
 import com.alibaba.fastjson.JSONObject;
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +13,10 @@ import java.util.Map;
  */
 public class ToutiaoUtil {
     private static final Logger logger = LoggerFactory.getLogger(ToutiaoUtil.class);
+    public static String QINIU_DOMAIN_PREFIX="http://ot8g7j1vd.bkt.clouddn.com/";
 
+
+    //阿里巴巴fastjson 统一数据格式
     public static String getJSONString(int code) {
         JSONObject json = new JSONObject();
         json.put("code", code);
@@ -23,7 +27,7 @@ public class ToutiaoUtil {
         JSONObject json = new JSONObject();
         json.put("code", code);
         json.put("msg", msg);
-        return json.toJSONString();
+        return json.toJSONString();//json转字符串
     }
 
     public static String getJSONString(int code, Map<String, Object> map) {
@@ -35,6 +39,7 @@ public class ToutiaoUtil {
         return json.toJSONString();
     }
 
+    //MD5加密算法
     public static String MD5(String key) {
         char hexDigits[] = {
                 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
@@ -61,6 +66,18 @@ public class ToutiaoUtil {
             logger.error("生成MD5失败", e);
             return null;
         }
+    }
+    public static String TOUTIAO_DOMAIN="http://localhost:8080/";
+    //上传文件保存地址
+    public static String IMAGE_DIR="C:/upload/";
+    //判断截取的文件后缀名是否合法
+    public static String[] IMAGE_FILE_EXT=new String[]{"png","bmp","jpg","jpeg"};
+    public static boolean isFileAllowed(String fileExt){
+        for(String ext:IMAGE_FILE_EXT){
+            if(ext.equals(fileExt))
+                return true;
+        }
+        return false;
     }
 
 }

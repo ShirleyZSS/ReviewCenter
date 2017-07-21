@@ -20,18 +20,15 @@ import java.util.Date;
  */
 @Component
 public class LoginRequiredInterceptor implements HandlerInterceptor{
-        @Autowired
-    private LoginTicketDAO loginTicketDAO;
 
-    @Autowired
-    private UserDAO userDAO;
 
     @Autowired
     private HostHolder hostHolder;
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-      if(hostHolder.getUser()==null){
+        //用户登录状态的判断
+        if(hostHolder.getUser()==null){
           httpServletResponse.sendRedirect("/?pop=1");
           return false;
       }
@@ -46,6 +43,5 @@ public class LoginRequiredInterceptor implements HandlerInterceptor{
 
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
-        hostHolder.clear();
     }
 }

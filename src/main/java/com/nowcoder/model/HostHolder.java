@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
  */
 @Component
 public class HostHolder {
-    private static ThreadLocal<User> users=new ThreadLocal<User>();
+    private static ThreadLocal<User> users=new ThreadLocal<User>();//线程本地变量 访问本线程内的变量
 
     public User getUser(){
         return users.get();

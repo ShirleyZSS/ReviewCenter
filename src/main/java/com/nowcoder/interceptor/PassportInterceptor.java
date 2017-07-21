@@ -20,7 +20,7 @@ import java.util.Date;
  */
 @Component
 public class PassportInterceptor implements HandlerInterceptor{
-        @Autowired
+    @Autowired
     private LoginTicketDAO loginTicketDAO;
 
     @Autowired
@@ -31,6 +31,7 @@ public class PassportInterceptor implements HandlerInterceptor{
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
+        User user=null;
         String ticket=null;
         if(httpServletRequest.getCookies()!=null){
             for(Cookie cookie:httpServletRequest.getCookies()){//遍历请求的cookie 查找ticket
@@ -46,8 +47,8 @@ public class PassportInterceptor implements HandlerInterceptor{
             if(loginTicket==null||loginTicket.getExpired().before(new Date())||loginTicket.getStatus()!=0){
                 return true;
             }
-            User user=userDAO.selectById(loginTicket.getUserId());
-            hostHolder.setUser(user);//将用户存在存在当前线程threadlocal中
+            user=userDAO.selectById(loginTicket.getUserId());
+            hostHolder.setUser(user);//将用户存在当前线程threadlocal中
         }
 
         return true;
@@ -58,7 +59,7 @@ public class PassportInterceptor implements HandlerInterceptor{
 
       //渲染之前
         if(modelAndView!=null&&hostHolder.getUser()!=null){//modelAndView 前后端交互
-            modelAndView.addObject("user",hostHolder.getUser());
+            modelAndView.addObject("user",hostHolder.getUser());//已登录状态 将用户传给前端页面 显示出来
         }
     }
 

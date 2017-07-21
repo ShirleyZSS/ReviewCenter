@@ -58,11 +58,6 @@ public class HomeController {
         return "home";
     }
 
-    @RequestMapping(path={"/logout/"},method={RequestMethod.GET,RequestMethod.POST})
-    public String logout(@CookieValue("ticket")String ticket){
-        userService.logout(ticket);
-        return "redirect:/";//登出 自动跳转首页
 
-    }
 
 }
